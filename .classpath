@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="D:/Study/Project/JPA/lib/jboss-logging-3.1.0.GA.jar"/>
 	<classpathentry kind="lib" path="D:/Study/Project/JPA/lib/jboss-transaction-api_1.1_spec-1.0.1.Final.jar"/>
 	<classpathentry kind="lib" path="D:/Study/Project/JPA/lib/mysql-connector-java-5.1.30.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

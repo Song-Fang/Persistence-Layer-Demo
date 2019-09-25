@@ -1,6 +1,8 @@
 package com.jpaDemo;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,8 +13,11 @@ public class Main {
 	public static void main(String[] args) {
 		//1. Create EntitymanagerFactory
 		String persistenceUnitName = "JPA-HelloWorld";
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
 		
+		//Map<String, Object> properties = new HashMap<String, Object>();
+		//properties.put("hibernate.show_sql", false);
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+		//EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName,properties);
 		//2.Create EntityManager
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		

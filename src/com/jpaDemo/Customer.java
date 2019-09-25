@@ -68,6 +68,12 @@ public class Customer {
 	public int getAge() {
 		return age;
 	}
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", lastName=" + lastName + ", email=" + email + ", age=" + age + ", creatTime="
+				+ creatTime + ", birth=" + birth + "]";
+	}
+
 	public void setAge(int age) {
 		this.age = age;
 	}
