@@ -30,7 +30,12 @@ public class JPATest {
 
 	@After
 	public void destroy() {
+		
+		//Before I submit, the transaction is not closed and roll back can be done
+		//transaction.rollback();
+		//When I commit, the transaction is not active
 		transaction.commit();
+		System.out.println(transaction.isActive());
 		entityManager.close();
 		entityManagerFactory.close();
 	}
@@ -158,7 +163,7 @@ public class JPATest {
 		Customer customer = entityManager.find(Customer.class, 1);
 		System.out.println(customer);
 		
-		customer.setLastName("Bob");
+		customer.setLastName("Francis");
 		//force to send the update request
 		entityManager.flush();
 	}
@@ -167,6 +172,7 @@ public class JPATest {
 	public void testRefresh(){
 		Customer customer = entityManager.find(Customer.class, 1);
 		System.out.println(customer);
+		
 		
 		entityManager.refresh(customer);
 		System.out.println(customer);
@@ -179,8 +185,9 @@ public class JPATest {
 		Customer customer = entityManager.find(Customer.class, 1);
 		System.out.println(customer);
 		
-		customer.setLastName("Francis");
+		customer.setLastName("Bob");
 		//The record in the database has nothing changed.
+		//Clear the persistence context in the JPA
 		entityManager.clear();
 		System.out.println(customer);
 	}
