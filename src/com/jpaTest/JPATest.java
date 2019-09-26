@@ -87,15 +87,17 @@ public class JPATest {
 		entityManager.remove(customer);
 	}
 
-	// Merge方法会创建一个新的对象，对新的对象进行持久化操作，即insert操作
+	//若对象是transient object, 
+	//Merge方法会创建一个新的对象，并对新的对象进行持久化操作，即insert操作
+	//No selection, just insert your record
 	@Test
 	public void testMerger1() {
 		Customer customer = new Customer();
 		customer.setAge(18);
 		customer.setBirth(new Date());
 		customer.setCreatTime(new Date());
-		customer.setEmail("Tim@163.com");
-		customer.setLastName("Tim");
+		customer.setEmail("Peter@163.com");
+		customer.setLastName("Peter");
 		Customer customer2 = entityManager.merge(customer);
 		System.out.println("customer#id: " + customer.getId());
 		System.out.println("customer#id: " + customer2.getId());
@@ -114,7 +116,8 @@ public class JPATest {
 		customer.setCreatTime(new Date());
 		customer.setEmail("Kathy@163.com");
 		customer.setLastName("Kathy");
-		customer.setId(6);
+		customer.setId(8);
+		//execute select and insert operation 
 		Customer customer2 = entityManager.merge(customer);
 		System.out.println("customer#id: " + customer.getId());
 		System.out.println("customer#id: " + customer2.getId());
@@ -137,27 +140,29 @@ public class JPATest {
 		customer.setId(6);
 		System.out.println("------------");
 		//merge方法会去执行查询
+		//execute select and update operation
 		Customer customer2 = entityManager.merge(customer);
 		System.out.println(customer == customer2);
 
 	}
 
-	// 若传入的是一个游离对象，即有OID，在EntityManager缓存中有对象
+	// 有OID，在EntityManager缓存中有对象
 	// JPA创建一个新的对象，将游离对象属性复制到新创建的对象中
 	// EntityManager执行update操作
 	@Test
 	public void testMerger4() {
 		Customer customer = new Customer();
-		customer.setAge(19);
+		customer.setAge(25);
 		customer.setBirth(new Date());
 		customer.setCreatTime(new Date());
-		customer.setEmail("Homo@163.com");
-		customer.setLastName("Homo");
+		customer.setEmail("Jack@163.com");
+		customer.setLastName("Jack");
 		// 执行查询操作
-		customer.setId(6);
+		customer.setId(8);
 		//手动查询，因为内存里有对应对象，merger方法不执行查询
 		Customer customer2 = entityManager.find(Customer.class,6);
 		System.out.println("------------");
+		//不执行查询操作，直接更新
 		entityManager.merge(customer);
 		System.out.println(customer == customer2);
 
