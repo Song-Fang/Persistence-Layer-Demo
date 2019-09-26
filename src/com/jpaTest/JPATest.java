@@ -169,8 +169,20 @@ public class JPATest {
 		System.out.println(customer);
 		
 		entityManager.refresh(customer);
+		System.out.println(customer);
 		
 		
+	}
+	
+	@Test
+	public void testClear(){
+		Customer customer = entityManager.find(Customer.class, 1);
+		System.out.println(customer);
+		
+		customer.setLastName("Francis");
+		//The record in the database has nothing changed.
+		entityManager.clear();
+		System.out.println(customer);
 	}
 
 }
