@@ -152,5 +152,25 @@ public class JPATest {
 		System.out.println(customer == customer2);
 
 	}
+	
+	@Test
+	public void testFlush(){
+		Customer customer = entityManager.find(Customer.class, 1);
+		System.out.println(customer);
+		
+		customer.setLastName("Bob");
+		//force to send the update request
+		entityManager.flush();
+	}
+	
+	@Test
+	public void testRefresh(){
+		Customer customer = entityManager.find(Customer.class, 1);
+		System.out.println(customer);
+		
+		entityManager.refresh(customer);
+		
+		
+	}
 
 }
