@@ -68,6 +68,7 @@ public class JPATest {
 		customer.setCreatTime(new Date());
 		customer.setEmail("lynn@163.com");
 		customer.setLastName("Lynn");
+		//customer.setId(5);
 		entityManager.persist(customer);
 		System.out.println(customer.getId());
 	}
@@ -78,7 +79,11 @@ public class JPATest {
 		// Customer customer = new Customer();
 		// customer.setId(2);
 		// entityManager.remove(customer);
-		Customer customer = entityManager.find(Customer.class, 4);
+		Customer customer = entityManager.find(Customer.class, 7);
+		//It will show the operation is failed.
+		//clear() method make the customer object become detached state
+		// it will not be found in session part
+		//entityManager.clear();
 		entityManager.remove(customer);
 	}
 
