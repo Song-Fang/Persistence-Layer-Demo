@@ -82,7 +82,7 @@ public class JPATest {
 		//It will show the operation is failed.
 		//clear() method make the customer object become detached state
 		// it will not be found in session part
-		//entityManager.clear();
+		entityManager.clear();
 		entityManager.remove(customer);
 	}
 
