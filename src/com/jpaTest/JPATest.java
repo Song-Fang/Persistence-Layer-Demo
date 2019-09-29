@@ -197,7 +197,7 @@ public class JPATest {
 		customer.setLastName("Bob");
 		//The record in the database has nothing changed.
 		//Clear the persistence context in the JPA
-		entityManager.clear();
+		//entityManager.clear();
 		System.out.println(customer);
 	}
 
