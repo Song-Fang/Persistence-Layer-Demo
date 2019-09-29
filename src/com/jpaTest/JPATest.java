@@ -35,7 +35,6 @@ public class JPATest {
 		//transaction.rollback();
 		//When I commit, the transaction is not active
 		transaction.commit();
-		System.out.println(transaction.isActive());
 		entityManager.close();
 		entityManagerFactory.close();
 	}
