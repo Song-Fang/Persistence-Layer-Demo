@@ -24,6 +24,7 @@ public class Order {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	@Column(name="ORDER_NAME")
 	public String getOrderName() {
 		return orderName;

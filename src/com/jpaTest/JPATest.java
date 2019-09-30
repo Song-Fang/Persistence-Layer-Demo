@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.jpaDemo.Customer;
+import com.jpaDemo.Order;
 
 public class JPATest {
 	private EntityManagerFactory entityManagerFactory;
@@ -203,6 +204,25 @@ public class JPATest {
 	
 	@Test
 	public void testManyToOne(){
+		Customer customer = new Customer();
+		customer.setAge(27);
+		customer.setBirth(new Date());
+		customer.setCreatTime(new Date());
+		customer.setEmail("zhang@163.com");
+		customer.setLastName("Zhang");
+		
+		Order order1 = new Order();
+		Order order2 = new Order();
+		
+		order1.setOrderName("O-FF-1");
+		order2.setOrderName("O-FF-2");
+		
+		order1.setCustomer(customer);
+		order2.setCustomer(customer);
+		
+		entityManager.persist(customer);
+		entityManager.persist(order1);
+		entityManager.persist(order2);
 		
 	}
 
