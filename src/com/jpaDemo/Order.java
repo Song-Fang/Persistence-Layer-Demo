@@ -2,6 +2,7 @@ package com.jpaDemo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -35,7 +36,7 @@ public class Order {
 	}
 
 	@JoinColumn(name = "CUSTOMER_ID")
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	public Customer getCustomer() {
 		return customer;
 	}

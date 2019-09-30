@@ -225,5 +225,25 @@ public class JPATest {
 		entityManager.persist(order2);
 		
 	}
+	
+	@Test
+	public void testManyToOneFind(){
+		Order order = entityManager.find(Order.class, 1);
+		System.out.println(order.getOrderName());
+		//System.out.println(order.getCustomer().getLastName());
+	}
+	
+	
+	
+	//不能删除1的一端，存在外键约束
+	@Test
+	public void testManyToOneDelete(){
+		//Order order = entityManager.find(Order.class, 1);
+		//entityManager.remove(order);
+		
+		Customer customer = entityManager.find(Customer.class, 13);
+		entityManager.remove(customer);
+		
+	}
 
 }
