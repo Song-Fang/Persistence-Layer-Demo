@@ -233,7 +233,11 @@ public class JPATest {
 		//System.out.println(order.getCustomer().getLastName());
 	}
 	
-	
+	@Test
+	public void testManyToOneUpdate(){
+		Order order = entityManager.find(Order.class, 2);
+		order.getCustomer().setLastName("Lee");
+	}
 	
 	//不能删除1的一端，存在外键约束
 	@Test
