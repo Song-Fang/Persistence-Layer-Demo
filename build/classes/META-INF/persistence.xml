@@ -4,6 +4,7 @@
 		
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.jpaDemo.Customer</class>
+		<class>com.jpaDemo.Order</class>
 		<properties>
 			<!-- Deploy the basic property of database connection -->
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

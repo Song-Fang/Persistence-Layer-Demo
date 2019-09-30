@@ -200,5 +200,10 @@ public class JPATest {
 		//entityManager.clear();
 		System.out.println(customer);
 	}
+	
+	@Test
+	public void testManyToOne(){
+		
+	}
 
 }
