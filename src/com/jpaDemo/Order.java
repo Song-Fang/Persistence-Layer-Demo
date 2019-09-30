@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Order {
 	private int id;
 	private String orderName;
-	private Customer customer;
+	//private Customer customer;
 
 	@GeneratedValue
 	@Id
@@ -35,14 +35,15 @@ public class Order {
 		this.orderName = orderName;
 	}
 
-	@JoinColumn(name = "CUSTOMER_ID")
-	@ManyToOne(fetch=FetchType.LAZY)
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
+//	@JoinColumn(name = "CUSTOMER_ID")
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	public Customer getCustomer() {
+//		return customer;
+//	}
+//
+//	public void setCustomer(Customer customer) {
+//		this.customer = customer;
+//	}
+	
 
 }

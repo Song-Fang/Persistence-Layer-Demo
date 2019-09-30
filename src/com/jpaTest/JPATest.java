@@ -202,7 +202,7 @@ public class JPATest {
 		System.out.println(customer);
 	}
 	
-	@Test
+	/*@Test
 	public void testManyToOne(){
 		Customer customer = new Customer();
 		customer.setAge(27);
@@ -224,23 +224,23 @@ public class JPATest {
 		entityManager.persist(order1);
 		entityManager.persist(order2);
 		
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void testManyToOneFind(){
 		Order order = entityManager.find(Order.class, 1);
 		System.out.println(order.getOrderName());
 		//System.out.println(order.getCustomer().getLastName());
-	}
+	}*/
 	
-	@Test
+	/*@Test
 	public void testManyToOneUpdate(){
 		Order order = entityManager.find(Order.class, 2);
 		order.getCustomer().setLastName("Lee");
-	}
+	}*/
 	
 	//不能删除1的一端，存在外键约束
-	@Test
+	/*@Test
 	public void testManyToOneDelete(){
 		//Order order = entityManager.find(Order.class, 1);
 		//entityManager.remove(order);
@@ -248,6 +248,62 @@ public class JPATest {
 		Customer customer = entityManager.find(Customer.class, 13);
 		entityManager.remove(customer);
 		
+	}*/
+	
+	@Test
+	public void testOneToMany(){
+		
 	}
+	
+	@Test
+	public void testOneToManyInsert(){
+		Customer customer = new Customer();
+		customer.setAge(27);
+		customer.setBirth(new Date());
+		customer.setCreatTime(new Date());
+		customer.setEmail("Huang@163.com");
+		customer.setLastName("Huang");
+		Order order1 = new Order();
+		order1.setOrderName("O-FF-1");
+		
+		Order order2 = new Order();
+		order2.setOrderName("O-FF-2");
+		
+		customer.getOrder().add(order1);
+		customer.getOrder().add(order2);
+		
+		
+		entityManager.persist(customer);
+		entityManager.persist(order1);
+		entityManager.persist(order2);
+	}
+	
+	//默认采用lazy
+	@Test
+	public void testOneToManyGet(){
+		Customer customer = entityManager.find(Customer.class, 22);
+		String name = customer.getLastName();
+		String orderName = customer.getOrder().iterator().next().getOrderName();
+		System.out.println(name);
+		System.out.println(orderName);
+	}
+	
+	@Test
+	public void testOneToManyUpdate(){
+		Customer customer = entityManager.find(Customer.class, 22);
+		customer.setAge(13);
+		customer.getOrder().iterator().next().setOrderName("O-TT-5");
+	}
+	
+	
+	//Customer ID设为null
+	//可以删除1的一端，可以设置级联删除
+	@Test
+	public void testOneToManyRemove(){
+		Customer customer = entityManager.find(Customer.class,23);
+		entityManager.remove(customer);
+	}
+	
+	
 
 }
