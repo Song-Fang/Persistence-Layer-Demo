@@ -347,7 +347,13 @@ public class JPATest {
 	
 	@Test
 	public void testManyToManyFind(){
-		
+//		Category category = entityManager.find(Category.class, 1);
+//		System.out.println(category.getCategoryName());
+//		System.out.println(category.getItems().iterator().next().getItemsName());
+	
+		Items item = entityManager.find(Items.class, 1);
+		System.out.println(item.getItemsName());
+		System.out.println(item.getCategory().size());
 	}
 	
 	
