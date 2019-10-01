@@ -13,7 +13,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jpaDemo.Category;
 import com.jpaDemo.Customer;
+import com.jpaDemo.Items;
 import com.jpaDemo.Order;
 
 public class JPATest {
@@ -303,6 +305,51 @@ public class JPATest {
 		Customer customer = entityManager.find(Customer.class,23);
 		entityManager.remove(customer);
 	}
+	
+	
+	@Test
+	public void testManyToManyPersist(){
+		
+	}
+	
+	@Test
+	public void testManyToManyInsert(){
+		Category category1 = new Category();
+		Category category2 = new Category();
+		
+		Items item1 = new Items();
+		Items item2 = new Items();
+		
+		category1.setCategoryName("AA");
+		category2.setCategoryName("BB");
+		
+		item1.setItemsName("Nike");
+		item2.setItemsName("Puma");
+		
+		//设置关联关系
+		category1.getItems().add(item1);
+		category1.getItems().add(item2);
+		
+		category2.getItems().add(item1);
+		category2.getItems().add(item2);
+		
+		item1.getCategory().add(category1);
+		item1.getCategory().add(category2);
+		
+		item2.getCategory().add(category1);
+		item2.getCategory().add(category2);
+		
+		entityManager.persist(category1);
+		entityManager.persist(category2);
+		entityManager.persist(item1);
+		entityManager.persist(item2);
+	}
+	
+	@Test
+	public void testManyToManyFind(){
+		
+	}
+	
 	
 	
 
