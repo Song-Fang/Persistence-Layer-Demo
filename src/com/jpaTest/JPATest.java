@@ -8,7 +8,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.QueryHint;
 
+import org.hibernate.annotations.QueryHints;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -414,6 +416,7 @@ public class JPATest {
 		// entityManager.remove(department);
 	}
 
+	//转型问题，何时需要强转，向下转型和向上转型
 	@Test
 	public void testHelloJPQL() {
 		String jpql = "SELECT c FROM Customer c WHERE c.age > ?";
@@ -429,8 +432,42 @@ public class JPATest {
 		String jpql = "SELECT new Customer(c.lastName, c.age) FROM Customer c WHERE c.age > ?";
 		Query query = entityManager.createQuery(jpql);
 		query.setParameter(1, 1);
-		List result = query.getResultList();
+		List<Customer> result = query.getResultList();
 		System.out.println(result);
+	}
+	
+	
+	@Test
+	public void testNamedQuery(){
+		Query query = entityManager.createNamedQuery("testNameQuery");
+		//query.setParameter(1, 15);
+		Customer customer = (Customer)query.getSingleResult();
+		System.out.println(customer);
+		
+	}
+	
+	@Test
+	public void testNativeQuery(){
+		String sql = "SELECT last_name, age FROM jpa_customer WHERE id = ?";
+		Query query = entityManager.createNativeQuery(sql);
+		query.setParameter(1, 13);
+		Object customer = query.getSingleResult();
+		System.out.println(customer);
+		
+	}
+	
+	@Test
+	public void testQueryCache(){
+		String jpql = "SELECT c FROM Customer c WHERE c.age > ?";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter(1, 1);
+		List<Customer> customer = query.getResultList();
+		System.out.println(customer.size());
+		
+		//query = entityManager.createQuery(jpql).setHint(QueryHints.HINT_CACHEABLE, true);
+		query.setParameter(1, 1);
+		customer = query.getResultList();
+		System.out.println(customer.size());
 	}
 
 }
