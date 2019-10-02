@@ -358,8 +358,10 @@ public class JPATest {
 	
 	@Test
 	public void testManyToManyDelete(){
-		Items item = entityManager.find(Items.class, 1);
-		entityManager.remove(item);
+		//Items item = entityManager.find(Items.class, 1);
+		//entityManager.remove(item);
+		Category category = entityManager.find(Category.class,1);
+		entityManager.remove(category);
 		
 	}
 	
