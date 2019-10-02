@@ -1,7 +1,5 @@
 package com.jpaTest;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -15,7 +13,9 @@ import org.junit.Test;
 
 import com.jpaDemo.Category;
 import com.jpaDemo.Customer;
+import com.jpaDemo.Department;
 import com.jpaDemo.Items;
+import com.jpaDemo.Manager;
 import com.jpaDemo.Order;
 
 public class JPATest {
@@ -365,6 +365,62 @@ public class JPATest {
 		
 	}
 	
+	@Test
+	public void testOneToOne(){
+		
+	}
+	
+	@Test
+	public void testOneToOnePersist(){
+		Manager manager1 = new Manager();
+		Manager manager2 = new Manager();
+		
+		manager1.setAge(28);
+		manager1.setManagerName("Francis");
+		
+		manager2.setAge(35);
+		manager2.setManagerName("Lynn");
+		
+		Department department1 = new Department();
+		Department department2 = new Department();
+		
+		department1.setDepartmentName("Research");
+		department2.setDepartmentName("Market");
+		
+		//set up relationship
+		manager1.setDepartment(department1);
+		manager2.setDepartment(department2);
+		
+		department1.setManager(manager1);
+		department2.setManager(manager2);
+		
+		entityManager.persist(department1);
+		entityManager.persist(department2);
+		
+		entityManager.persist(manager1);
+		entityManager.persist(manager2);	
+	}
+	
+	@Test
+	public void testOneToOneFind(){
+		Manager manager = entityManager.find(Manager.class, 3);
+		String name = manager.getManagerName();
+		System.out.println(name);
+		String deptName = manager.getDepartment().getDepartmentName();
+		System.out.println(deptName);
+	}
+	
+	@Test
+	public void testOneToOneRemove(){
+		//We can't remove it successfully
+		Manager manager = entityManager.find(Manager.class, 4);
+		entityManager.remove(manager);
+		
+		//Department department = entityManager.find(Department.class, 3);
+		//System.out.println(department.getDepartmentName());
+		
+		//entityManager.remove(department);
+	}
 	
 	
 

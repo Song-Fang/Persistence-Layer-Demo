@@ -1,5 +1,7 @@
 package com.jpaDemo;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,7 +17,7 @@ public class Manager {
 	private Department department;
 
 	
-	@OneToOne(mappedBy="manager")
+	@OneToOne(mappedBy="manager",cascade={CascadeType.REMOVE})
 	public Department getDepartment() {
 		return department;
 	}
@@ -30,6 +32,8 @@ public class Manager {
 	public void setID(int iD) {
 		ID = iD;
 	}
+	
+	@Column(name="Manager_Name")
 	public String getManagerName() {
 		return managerName;
 	}
