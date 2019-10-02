@@ -358,6 +358,8 @@ public class JPATest {
 	
 	@Test
 	public void testManyToManyDelete(){
+		Items item = entityManager.find(Items.class, 1);
+		
 		
 	}
 	
