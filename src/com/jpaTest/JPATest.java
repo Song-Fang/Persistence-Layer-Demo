@@ -356,6 +356,11 @@ public class JPATest {
 		System.out.println(item.getCategory().size());
 	}
 	
+	@Test
+	public void testManyToManyDelete(){
+		
+	}
+	
 	
 	
 
