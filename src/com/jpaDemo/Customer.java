@@ -38,6 +38,17 @@ public class Customer {
 		return order;
 	}
 
+	public Customer(String lastName, int age) {
+		super();
+		this.lastName = lastName;
+		this.age = age;
+	}
+
+	public Customer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public void setOrder(Set<Order> order) {
 		this.order = order;
 	}

@@ -1,11 +1,13 @@
 package com.jpaTest;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,10 +35,11 @@ public class JPATest {
 
 	@After
 	public void destroy() {
-		
-		//Before I submit, the transaction is not closed and roll back can be done
-		//transaction.rollback();
-		//When I commit, the transaction is not active
+
+		// Before I submit, the transaction is not closed and roll back can be
+		// done
+		// transaction.rollback();
+		// When I commit, the transaction is not active
 		transaction.commit();
 		entityManager.close();
 		entityManagerFactory.close();
@@ -70,7 +73,7 @@ public class JPATest {
 		customer.setCreatTime(new Date());
 		customer.setEmail("lynn@163.com");
 		customer.setLastName("Lynn");
-		//customer.setId(5);
+		// customer.setId(5);
 		entityManager.persist(customer);
 		System.out.println(customer.getId());
 	}
@@ -82,16 +85,16 @@ public class JPATest {
 		// customer.setId(2);
 		// entityManager.remove(customer);
 		Customer customer = entityManager.find(Customer.class, 7);
-		//It will show the operation is failed.
-		//clear() method make the customer object become detached state
+		// It will show the operation is failed.
+		// clear() method make the customer object become detached state
 		// it will not be found in session part
 		entityManager.clear();
 		entityManager.remove(customer);
 	}
 
-	//若对象是transient object, 
-	//Merge方法会创建一个新的对象，并对新的对象进行持久化操作，即insert操作
-	//No selection, just insert your record
+	// 若对象是transient object,
+	// Merge方法会创建一个新的对象，并对新的对象进行持久化操作，即insert操作
+	// No selection, just insert your record
 	@Test
 	public void testMerger1() {
 		Customer customer = new Customer();
@@ -119,7 +122,7 @@ public class JPATest {
 		customer.setEmail("Kathy@163.com");
 		customer.setLastName("Kathy");
 		customer.setId(8);
-		//execute select and insert operation 
+		// execute select and insert operation
 		Customer customer2 = entityManager.merge(customer);
 		System.out.println("customer#id: " + customer.getId());
 		System.out.println("customer#id: " + customer2.getId());
@@ -141,8 +144,8 @@ public class JPATest {
 		// 执行查询操作
 		customer.setId(6);
 		System.out.println("------------");
-		//merge方法会去执行查询
-		//execute select and update operation
+		// merge方法会去执行查询
+		// execute select and update operation
 		Customer customer2 = entityManager.merge(customer);
 		System.out.println(customer == customer2);
 
@@ -161,104 +164,96 @@ public class JPATest {
 		customer.setLastName("Jack");
 		// 执行查询操作
 		customer.setId(8);
-		//手动查询，因为内存里有对应对象，merger方法不执行查询
-		Customer customer2 = entityManager.find(Customer.class,6);
+		// 手动查询，因为内存里有对应对象，merger方法不执行查询
+		Customer customer2 = entityManager.find(Customer.class, 6);
 		System.out.println("------------");
-		//不执行查询操作，直接更新
+		// 不执行查询操作，直接更新
 		entityManager.merge(customer);
 		System.out.println(customer == customer2);
 
 	}
-	
+
 	@Test
-	public void testFlush(){
+	public void testFlush() {
 		Customer customer = entityManager.find(Customer.class, 1);
 		System.out.println(customer);
-		
+
 		customer.setLastName("Francis");
-		//force to send the update request
+		// force to send the update request
 		entityManager.flush();
 	}
-	
+
 	@Test
-	public void testRefresh(){
+	public void testRefresh() {
 		Customer customer = entityManager.find(Customer.class, 1);
 		System.out.println(customer);
-		
-		
+
 		entityManager.refresh(customer);
 		System.out.println(customer);
-		
-		
+
 	}
-	
+
 	@Test
-	public void testClear(){
+	public void testClear() {
 		Customer customer = entityManager.find(Customer.class, 1);
 		System.out.println(customer);
-		
+
 		customer.setLastName("Bob");
-		//The record in the database has nothing changed.
-		//Clear the persistence context in the JPA
-		//entityManager.clear();
+		// The record in the database has nothing changed.
+		// Clear the persistence context in the JPA
+		// entityManager.clear();
 		System.out.println(customer);
 	}
-	
-	/*@Test
-	public void testManyToOne(){
-		Customer customer = new Customer();
-		customer.setAge(27);
-		customer.setBirth(new Date());
-		customer.setCreatTime(new Date());
-		customer.setEmail("zhang@163.com");
-		customer.setLastName("Zhang");
-		
-		Order order1 = new Order();
-		Order order2 = new Order();
-		
-		order1.setOrderName("O-FF-1");
-		order2.setOrderName("O-FF-2");
-		
-		order1.setCustomer(customer);
-		order2.setCustomer(customer);
-		
-		entityManager.persist(customer);
-		entityManager.persist(order1);
-		entityManager.persist(order2);
-		
-	}*/
-	
-	/*@Test
-	public void testManyToOneFind(){
-		Order order = entityManager.find(Order.class, 1);
-		System.out.println(order.getOrderName());
-		//System.out.println(order.getCustomer().getLastName());
-	}*/
-	
-	/*@Test
-	public void testManyToOneUpdate(){
-		Order order = entityManager.find(Order.class, 2);
-		order.getCustomer().setLastName("Lee");
-	}*/
-	
-	//不能删除1的一端，存在外键约束
-	/*@Test
-	public void testManyToOneDelete(){
-		//Order order = entityManager.find(Order.class, 1);
-		//entityManager.remove(order);
-		
-		Customer customer = entityManager.find(Customer.class, 13);
-		entityManager.remove(customer);
-		
-	}*/
-	
+
+	/*
+	 * @Test public void testManyToOne(){ Customer customer = new Customer();
+	 * customer.setAge(27); customer.setBirth(new Date());
+	 * customer.setCreatTime(new Date()); customer.setEmail("zhang@163.com");
+	 * customer.setLastName("Zhang");
+	 * 
+	 * Order order1 = new Order(); Order order2 = new Order();
+	 * 
+	 * order1.setOrderName("O-FF-1"); order2.setOrderName("O-FF-2");
+	 * 
+	 * order1.setCustomer(customer); order2.setCustomer(customer);
+	 * 
+	 * entityManager.persist(customer); entityManager.persist(order1);
+	 * entityManager.persist(order2);
+	 * 
+	 * }
+	 */
+
+	/*
+	 * @Test public void testManyToOneFind(){ Order order =
+	 * entityManager.find(Order.class, 1);
+	 * System.out.println(order.getOrderName());
+	 * //System.out.println(order.getCustomer().getLastName()); }
+	 */
+
+	/*
+	 * @Test public void testManyToOneUpdate(){ Order order =
+	 * entityManager.find(Order.class, 2);
+	 * order.getCustomer().setLastName("Lee"); }
+	 */
+
+	// 不能删除1的一端，存在外键约束
+	/*
+	 * @Test public void testManyToOneDelete(){ //Order order =
+	 * entityManager.find(Order.class, 1); //entityManager.remove(order);
+	 * 
+	 * Customer customer = entityManager.find(Customer.class, 13);
+	 * entityManager.remove(customer);
+	 * 
+	 * }
+	 */
+
 	@Test
-	public void testOneToMany(){
-		
+	public void testOneToMany() {
+
 	}
-	
+
 	@Test
-	public void testOneToManyInsert(){
+	public void testOneToManyInsert() {
 		Customer customer = new Customer();
 		customer.setAge(27);
 		customer.setBirth(new Date());
@@ -267,161 +262,175 @@ public class JPATest {
 		customer.setLastName("Huang");
 		Order order1 = new Order();
 		order1.setOrderName("O-FF-1");
-		
+
 		Order order2 = new Order();
 		order2.setOrderName("O-FF-2");
-		
+
 		customer.getOrder().add(order1);
 		customer.getOrder().add(order2);
-		
-		
+
 		entityManager.persist(customer);
 		entityManager.persist(order1);
 		entityManager.persist(order2);
 	}
-	
-	//默认采用lazy
+
+	// 默认采用lazy
 	@Test
-	public void testOneToManyGet(){
+	public void testOneToManyGet() {
 		Customer customer = entityManager.find(Customer.class, 22);
 		String name = customer.getLastName();
 		String orderName = customer.getOrder().iterator().next().getOrderName();
 		System.out.println(name);
 		System.out.println(orderName);
 	}
-	
+
 	@Test
-	public void testOneToManyUpdate(){
+	public void testOneToManyUpdate() {
 		Customer customer = entityManager.find(Customer.class, 22);
 		customer.setAge(13);
 		customer.getOrder().iterator().next().setOrderName("O-TT-5");
 	}
-	
-	
-	//Customer ID设为null
-	//可以删除1的一端，可以设置级联删除
+
+	// Customer ID设为null
+	// 可以删除1的一端，可以设置级联删除
 	@Test
-	public void testOneToManyRemove(){
-		Customer customer = entityManager.find(Customer.class,23);
+	public void testOneToManyRemove() {
+		Customer customer = entityManager.find(Customer.class, 23);
 		entityManager.remove(customer);
 	}
-	
-	
+
 	@Test
-	public void testManyToManyPersist(){
-		
+	public void testManyToManyPersist() {
+
 	}
-	
+
 	@Test
-	public void testManyToManyInsert(){
+	public void testManyToManyInsert() {
 		Category category1 = new Category();
 		Category category2 = new Category();
-		
+
 		Items item1 = new Items();
 		Items item2 = new Items();
-		
+
 		category1.setCategoryName("AA");
 		category2.setCategoryName("BB");
-		
+
 		item1.setItemsName("Nike");
 		item2.setItemsName("Puma");
-		
-		//设置关联关系
+
+		// 设置关联关系
 		category1.getItems().add(item1);
 		category1.getItems().add(item2);
-		
+
 		category2.getItems().add(item1);
 		category2.getItems().add(item2);
-		
+
 		item1.getCategory().add(category1);
 		item1.getCategory().add(category2);
-		
+
 		item2.getCategory().add(category1);
 		item2.getCategory().add(category2);
-		
+
 		entityManager.persist(category1);
 		entityManager.persist(category2);
 		entityManager.persist(item1);
 		entityManager.persist(item2);
 	}
-	
+
 	@Test
-	public void testManyToManyFind(){
-//		Category category = entityManager.find(Category.class, 1);
-//		System.out.println(category.getCategoryName());
-//		System.out.println(category.getItems().iterator().next().getItemsName());
-	
+	public void testManyToManyFind() {
+		// Category category = entityManager.find(Category.class, 1);
+		// System.out.println(category.getCategoryName());
+		// System.out.println(category.getItems().iterator().next().getItemsName());
+
 		Items item = entityManager.find(Items.class, 1);
 		System.out.println(item.getItemsName());
 		System.out.println(item.getCategory().size());
 	}
-	
+
 	@Test
-	public void testManyToManyDelete(){
-		//Items item = entityManager.find(Items.class, 1);
-		//entityManager.remove(item);
-		Category category = entityManager.find(Category.class,1);
+	public void testManyToManyDelete() {
+		// Items item = entityManager.find(Items.class, 1);
+		// entityManager.remove(item);
+		Category category = entityManager.find(Category.class, 1);
 		entityManager.remove(category);
-		
+
 	}
-	
+
 	@Test
-	public void testOneToOne(){
-		
+	public void testOneToOne() {
+
 	}
-	
+
 	@Test
-	public void testOneToOnePersist(){
+	public void testOneToOnePersist() {
 		Manager manager1 = new Manager();
 		Manager manager2 = new Manager();
-		
+
 		manager1.setAge(28);
 		manager1.setManagerName("Francis");
-		
+
 		manager2.setAge(35);
 		manager2.setManagerName("Lynn");
-		
+
 		Department department1 = new Department();
 		Department department2 = new Department();
-		
+
 		department1.setDepartmentName("Research");
 		department2.setDepartmentName("Market");
-		
-		//set up relationship
+
+		// set up relationship
 		manager1.setDepartment(department1);
 		manager2.setDepartment(department2);
-		
+
 		department1.setManager(manager1);
 		department2.setManager(manager2);
-		
+
 		entityManager.persist(department1);
 		entityManager.persist(department2);
-		
+
 		entityManager.persist(manager1);
-		entityManager.persist(manager2);	
+		entityManager.persist(manager2);
 	}
-	
+
 	@Test
-	public void testOneToOneFind(){
+	public void testOneToOneFind() {
 		Manager manager = entityManager.find(Manager.class, 3);
 		String name = manager.getManagerName();
 		System.out.println(name);
 		String deptName = manager.getDepartment().getDepartmentName();
 		System.out.println(deptName);
 	}
-	
+
 	@Test
-	public void testOneToOneRemove(){
-		//We can't remove it successfully
+	public void testOneToOneRemove() {
+		// We can't remove it successfully
 		Manager manager = entityManager.find(Manager.class, 4);
 		entityManager.remove(manager);
-		
-		//Department department = entityManager.find(Department.class, 3);
-		//System.out.println(department.getDepartmentName());
-		
-		//entityManager.remove(department);
+
+		// Department department = entityManager.find(Department.class, 3);
+		// System.out.println(department.getDepartmentName());
+
+		// entityManager.remove(department);
+	}
+
+	@Test
+	public void testHelloJPQL() {
+		String jpql = "SELECT c FROM Customer c WHERE c.age > ?";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter(1, 1);
+		List<Customer> customer = query.getResultList();
+		System.out.println(customer.size());
 	}
 	
 	
+	@Test
+	public void testPartlyPropertites(){
+		String jpql = "SELECT new Customer(c.lastName, c.age) FROM Customer c WHERE c.age > ?";
+		Query query = entityManager.createQuery(jpql);
+		query.setParameter(1, 1);
+		List result = query.getResultList();
+		System.out.println(result);
+	}
 
 }
